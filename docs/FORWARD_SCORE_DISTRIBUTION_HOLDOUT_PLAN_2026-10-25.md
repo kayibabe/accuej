@@ -86,7 +86,7 @@ sample.
 Run the capture audit without reading match outcomes:
 
 ```powershell
-docker exec -w /app qwantej-backend-1 python -m app.services.score_distribution_evaluation `
+docker exec -w /app accuej-backend-1 python -m app.services.score_distribution_evaluation `
   --model-version 0.3.0 --capture-source model_run --snapshot-audit-only
 ```
 

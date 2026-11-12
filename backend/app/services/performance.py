@@ -668,7 +668,7 @@ async def probability_calibration_analysis(
     date_to: date | None = None,
     model_version: str | None = None,
 ) -> dict:
-    """Compare Qwantej model probability vs. market-implied probability across the whole system.
+    """Compare Accuej model probability vs. market-implied probability across the whole system.
 
     Uses the same whole-system population as all_market_research_summary: every
     latest prediction (accepted into a ticket or rejected) with a pre-kickoff
@@ -748,7 +748,7 @@ async def probability_calibration_analysis(
             })
         return rows_out
 
-    qwantej_buckets = bucket_breakdown(lambda p: p.model_probability)
+    accuej_buckets = bucket_breakdown(lambda p: p.model_probability)
     market_buckets = bucket_breakdown(lambda p: p.source_implied_probability)
 
     combined_groups: dict[tuple[str, str], list[tuple[Prediction, SelectionResult]]] = {}
@@ -756,18 +756,18 @@ async def probability_calibration_analysis(
         key = (_probability_band(p.model_probability), _probability_band(p.source_implied_probability))
         combined_groups.setdefault(key, []).append((p, o))
     combined_matrix = []
-    for (qwantej_band, market_band), items in combined_groups.items():
-        avg_qwantej = sum(p.model_probability for p, _ in items) / len(items)
+    for (accuej_band, market_band), items in combined_groups.items():
+        avg_accuej = sum(p.model_probability for p, _ in items) / len(items)
         avg_market = sum(p.source_implied_probability for p, _ in items) / len(items)
         combined_matrix.append({
-            "qwantej_band": qwantej_band,
+            "accuej_band": accuej_band,
             "market_band": market_band,
             **outcomes_aggregate(items),
-            "avg_qwantej_probability": round(avg_qwantej, 4),
+            "avg_accuej_probability": round(avg_accuej, 4),
             "avg_market_probability": round(avg_market, 4),
         })
     combined_matrix.sort(key=lambda row: (
-        _PROBABILITY_BAND_ORDER.index(row["qwantej_band"]),
+        _PROBABILITY_BAND_ORDER.index(row["accuej_band"]),
         _PROBABILITY_BAND_ORDER.index(row["market_band"]),
     ))
     best_combinations = sorted(
@@ -791,13 +791,13 @@ async def probability_calibration_analysis(
         return round(sum((p - y) ** 2 for p, y in outcomes) / len(outcomes), 4) if outcomes else None
 
     def calibration_summary(items: list[tuple[Prediction, SelectionResult]]) -> dict:
-        qwantej_o = [(p.model_probability, 1.0 if o == SelectionResult.WON else 0.0) for p, o in items]
+        accuej_o = [(p.model_probability, 1.0 if o == SelectionResult.WON else 0.0) for p, o in items]
         market_o = [(p.source_implied_probability, 1.0 if o == SelectionResult.WON else 0.0) for p, o in items]
         return {
             **outcomes_aggregate(items),
-            "qwantej_brier_score": brier(qwantej_o),
+            "accuej_brier_score": brier(accuej_o),
             "market_brier_score": brier(market_o),
-            "qwantej_calibration_error": round(_calibration_error(qwantej_o) or 0.0, 4) if qwantej_o else None,
+            "accuej_calibration_error": round(_calibration_error(accuej_o) or 0.0, 4) if accuej_o else None,
             "market_calibration_error": round(_calibration_error(market_o) or 0.0, 4) if market_o else None,
         }
 
@@ -820,7 +820,7 @@ async def probability_calibration_analysis(
         for family, items in sorted(by_market_family.items(), key=lambda kv: len(kv[1]), reverse=True)
     ]
 
-    qwantej_outcomes = [(p.model_probability, 1.0 if o == SelectionResult.WON else 0.0) for p, o in effective]
+    accuej_outcomes = [(p.model_probability, 1.0 if o == SelectionResult.WON else 0.0) for p, o in effective]
     market_outcomes = [(p.source_implied_probability, 1.0 if o == SelectionResult.WON else 0.0) for p, o in effective]
 
     return {
@@ -829,12 +829,12 @@ async def probability_calibration_analysis(
             "sample_size": len(effective),
             "voids_excluded": len(rows) - len(effective),
             "unsupported_markets_excluded": unsupported,
-            "qwantej_brier_score": brier(qwantej_outcomes),
+            "accuej_brier_score": brier(accuej_outcomes),
             "market_brier_score": brier(market_outcomes),
-            "qwantej_calibration_error": round(_calibration_error(qwantej_outcomes) or 0.0, 4) if qwantej_outcomes else None,
+            "accuej_calibration_error": round(_calibration_error(accuej_outcomes) or 0.0, 4) if accuej_outcomes else None,
             "market_calibration_error": round(_calibration_error(market_outcomes) or 0.0, 4) if market_outcomes else None,
         },
-        "qwantej_buckets": qwantej_buckets,
+        "accuej_buckets": accuej_buckets,
         "market_buckets": market_buckets,
         "combined_matrix": combined_matrix,
         "best_combinations": best_combinations,

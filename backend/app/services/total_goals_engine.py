@@ -57,7 +57,7 @@ def total_goals_distribution_from_mean(total_mean, home_projected=None, away_pro
         ),
     }
     return {
-        "schema_version": "qwantej.total-goals-forecast.v1",
+        "schema_version": "accuej.total-goals-forecast.v1",
         "source": "independent_poisson_expected_goals_diagnostic",
         "calibrated": False,
         "home_projected_goals": number(home_projected),
@@ -109,7 +109,7 @@ def apply_shared_total_goals_calibration(forecast, profile):
 
 def probability_for_market(forecast, market):
     """Return a validated event probability from a shared forecast snapshot."""
-    if not isinstance(forecast, dict) or forecast.get("schema_version") != "qwantej.total-goals-forecast.v1":
+    if not isinstance(forecast, dict) or forecast.get("schema_version") != "accuej.total-goals-forecast.v1":
         return None
     value = number((forecast.get("markets") or {}).get(market))
     return value if value is not None and 0 <= value <= 1 else None

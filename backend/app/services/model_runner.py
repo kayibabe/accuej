@@ -508,7 +508,7 @@ class ModelRunner:
             )
             decision_at = datetime.now(timezone.utc)
             feature_snapshot = {
-                "schema_version": "qwantej.model-features.v1",
+                "schema_version": "accuej.model-features.v1",
                 "forecast_build_id": forecast_build_id(),
                 "captured_at": decision_at.isoformat(),
                 "goals_evidence": over45_evidence,

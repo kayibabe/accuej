@@ -1,10 +1,10 @@
 {
-  "name": "qwantej-frontend",
+  "name": "accuej-frontend",
   "private": true,
   "version": "0.1.0",
   "type": "module",
   "scripts": {
-    "dev": "vite --port 3000",
+    "dev": "vite --port 5173 --strictPort",
     "build": "tsc && vite build",
     "test": "vitest run",
     "preview": "vite preview"

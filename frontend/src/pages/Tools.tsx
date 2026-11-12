@@ -49,7 +49,7 @@ function KellyCalculator() {
           </select>
         </div>
       </div>
-      <p className="tool-method-note">The probability is your input. This calculation does not account for estimation uncertainty or verify a QwanEj quote.</p>
+      <p className="tool-method-note">The probability is your input. This calculation does not account for estimation uncertainty or verify a Accuej quote.</p>
       {!isNaN(kelly) && (
         <div className="tool-result">
           {kelly <= 0 ? (

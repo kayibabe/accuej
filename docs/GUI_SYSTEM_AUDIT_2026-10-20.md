@@ -1,18 +1,18 @@
-# Qwantej GUI, UX, and information-flow audit
+# Accuej GUI, UX, and information-flow audit
 
 **Date:** 2026-10-20  
-**Workspace:** `D:\WebApps\qwantej`  
+**Workspace:** `D:\WebApps\accuej`  
 **Type:** Audit with local implementation follow-up; no production behavior or stored records changed.
 
 ## Scope and evidence
 
 Reviewed the shared React shell and route flow, plus the authenticated live screens for Today, Matches, Live, Stats & trends, Research (Market ROI, Daily Match Picks, Research Policy), Track (Paper ledger), Validate (Performance), Tools, Admin, and a selection-to-Match-Intelligence drilldown. Cross-checked those screens against the relevant frontend components and data-flow code.
 
-The live review used the running local Qwantej app at `127.0.0.1:8001` with the signed-in admin account on 2026-10-20 around 12:42–12:45 Africa/Blantyre. The public landing/login flow, free-user permissions, mobile breakpoints, keyboard-only use, and screen-reader behavior were not reviewed in this pass. This is a product and information-flow review, not a full backend rules audit or accessibility certification. No tests were run because no implementation change was requested.
+The live review used the running local Accuej app at `127.0.0.1:8001` with the signed-in admin account on 2026-10-20 around 12:42–12:45 Africa/Blantyre. The public landing/login flow, free-user permissions, mobile breakpoints, keyboard-only use, and screen-reader behavior were not reviewed in this pass. This is a product and information-flow review, not a full backend rules audit or accessibility certification. No tests were run because no implementation change was requested.
 
 ## Executive view
 
-Qwantej has useful trust foundations: paper/research scope is stated in several places, published records are described as immutable, Match Intelligence exposes timestamps and risks, and Research Policy correctly displays zero matches when its evidence gate fails. The main problems are that screens mix several decision populations, some status language implies fresher or more specific evidence than it represents, and one drilldown loses the selected market context.
+Accuej has useful trust foundations: paper/research scope is stated in several places, published records are described as immutable, Match Intelligence exposes timestamps and risks, and Research Policy correctly displays zero matches when its evidence gate fails. The main problems are that screens mix several decision populations, some status language implies fresher or more specific evidence than it represents, and one drilldown loses the selected market context.
 
 **Overall assessment:** usable for an experienced internal researcher who already knows the system’s vocabulary; harder than necessary to answer three basic questions quickly: *What is this record? How current is its evidence? What should I inspect next?*
 
@@ -26,7 +26,7 @@ The selection detail passes only `match_id`; Match Intelligence then uncondition
 
 **Recommendation:** carry `prediction_id` (or a stable market/selection key) into the route and select that row as the primary summary. Keep “best ranked market for this match” as a separate, explicitly named option. Show the source selection and its timestamp at the top of the destination.
 
-**Code:** [SelectionDetail.tsx](/D:/WebApps/qwantej/frontend/src/components/SelectionDetail.tsx:214), [App.tsx](/D:/WebApps/qwantej/frontend/src/App.tsx:285), [MatchIntelligencePage.tsx](/D:/WebApps/qwantej/frontend/src/pages/MatchIntelligencePage.tsx:36).
+**Code:** [SelectionDetail.tsx](/D:/WebApps/accuej/frontend/src/components/SelectionDetail.tsx:214), [App.tsx](/D:/WebApps/accuej/frontend/src/App.tsx:285), [MatchIntelligencePage.tsx](/D:/WebApps/accuej/frontend/src/pages/MatchIntelligencePage.tsx:36).
 
 ### P1 — Global “Refreshed” time does not prove the data was refreshed
 
@@ -34,7 +34,7 @@ The shared header labels a locally initialized `lastUpdated` value as “Refresh
 
 **Recommendation:** remove the global freshness claim. Show a data timestamp per module, tied to the latest successful response, with a visible stale/error state. Keep “last page reload” only if it is labeled as such.
 
-**Code:** [App.tsx](/D:/WebApps/qwantej/frontend/src/App.tsx:92), [App.tsx](/D:/WebApps/qwantej/frontend/src/App.tsx:271).
+**Code:** [App.tsx](/D:/WebApps/accuej/frontend/src/App.tsx:92), [App.tsx](/D:/WebApps/accuej/frontend/src/App.tsx:271).
 
 ### P1 — Admin health summary conflicts with the visible published-ticket state
 
@@ -42,7 +42,7 @@ At the same observation time, Today showed eight published picks across three up
 
 **Recommendation:** define the exact population and age threshold behind each operational metric, and use the same words in the ticket and Admin views. If a health measure covers a different set (for example, model recommendations rather than published ticket legs), label that set directly. Add links from a non-current status to the affected records.
 
-**Evidence:** live Today, Admin, and selection-detail screens; Admin quote-coverage rendering is in [Admin.tsx](/D:/WebApps/qwantej/frontend/src/pages/Admin.tsx:250).
+**Evidence:** live Today, Admin, and selection-detail screens; Admin quote-coverage rendering is in [Admin.tsx](/D:/WebApps/accuej/frontend/src/pages/Admin.tsx:250).
 
 ### P1 — Admin alerts are hard to triage at the point of use
 
@@ -50,7 +50,7 @@ Admin showed ten active alerts alongside a completed latest pipeline. The list c
 
 **Recommendation:** group repeated alerts by job and error signature; show severity, first/last seen, occurrence count, current/cleared state, and one next action. Separate expected guardrail rejections from infrastructure/provider failures. Keep the latest completed run visible as recovery evidence.
 
-**Code:** [Admin.tsx](/D:/WebApps/qwantej/frontend/src/pages/Admin.tsx:350).
+**Code:** [Admin.tsx](/D:/WebApps/accuej/frontend/src/pages/Admin.tsx:350).
 
 ### P2 — The same header context is repeated outside its useful scope
 
@@ -58,7 +58,7 @@ The daily shell exposes “508 strict candidates · Published 07:58 · Model 0.3
 
 **Recommendation:** keep the global header focused on page identity and date. Put publication/model provenance beside the ticket record it describes; put candidate-pool counts in the relevant research summary with a short definition and a link to the population.
 
-**Code:** [DailyTicketsPage.tsx](/D:/WebApps/qwantej/frontend/src/pages/dailyTickets/DailyTicketsPage.tsx:308).
+**Code:** [DailyTicketsPage.tsx](/D:/WebApps/accuej/frontend/src/pages/dailyTickets/DailyTicketsPage.tsx:308).
 
 ### P2 — Today repeats pick information before the ticket-level records
 
@@ -66,7 +66,7 @@ Today displays eight unique published selections first, then shows all three tic
 
 **Recommendation:** retain both views but make the relationship navigable: show a compact pick list with tier badges and one “open ticket” path; make full tier leg details collapsible or let the user switch between **Picks** and **Ticket tiers**. Keep return/probability explanations available beside the figures.
 
-**Evidence:** live Today screen; the unique-pick list is rendered by [PublishedSelections.tsx](/D:/WebApps/qwantej/frontend/src/pages/dailyTickets/PublishedSelections.tsx:52), then the tier totals are rendered later in [DailyTicketsPage.tsx](/D:/WebApps/qwantej/frontend/src/pages/dailyTickets/DailyTicketsPage.tsx:513).
+**Evidence:** live Today screen; the unique-pick list is rendered by [PublishedSelections.tsx](/D:/WebApps/accuej/frontend/src/pages/dailyTickets/PublishedSelections.tsx:52), then the tier totals are rendered later in [DailyTicketsPage.tsx](/D:/WebApps/accuej/frontend/src/pages/dailyTickets/DailyTicketsPage.tsx:513).
 
 ### P2 — Research pages front-load too many counts and thresholds
 
@@ -74,7 +74,7 @@ Market ROI places a long gate explanation, six summary values, a grouped fixture
 
 **Recommendation:** make the research question and selected-date result the first layer. Put gate details behind a concise “How qualification works” disclosure. Style “Meets formula” separately from evidence strength, and keep sample size/confidence adjacent to ROI. Do not alter the configured gate based on this UX audit; any sample-size rule is a research-policy decision requiring its own evidence review.
 
-**Code:** [MarketRoiDaily.tsx](/D:/WebApps/qwantej/frontend/src/pages/dailyTickets/MarketRoiDaily.tsx:126).
+**Code:** [MarketRoiDaily.tsx](/D:/WebApps/accuej/frontend/src/pages/dailyTickets/MarketRoiDaily.tsx:126).
 
 ### P2 — Daily Match Picks is too wide for its table hierarchy
 
@@ -82,15 +82,15 @@ The live table combines kickoff, match, competition, pick, odds/bookmaker, Q/gra
 
 **Recommendation:** keep match, pick, odds/source, Q, and current status in the first view. Put historical sample and quote provenance into a clearly labeled expandable row or detail panel. Preserve sort/filter access, and test a narrow viewport after restructuring.
 
-**Evidence:** Daily Match Picks rendered table at the live desktop viewport; table implementation is in [MarketRoiDaily.tsx](/D:/WebApps/qwantej/frontend/src/pages/dailyTickets/MarketRoiDaily.tsx).
+**Evidence:** Daily Match Picks rendered table at the live desktop viewport; table implementation is in [MarketRoiDaily.tsx](/D:/WebApps/accuej/frontend/src/pages/dailyTickets/MarketRoiDaily.tsx).
 
 ### P2 — The calculator language turns user-entered assumptions into advice
 
-Tools correctly calls the calculators “what-if” scenarios and says they do not change the ledger. Inside the Kelly and expected-value calculators, however, the default choice is “Half Kelly (recommended)” and a positive user-entered probability produces “+EV — bet has value.” Those outputs do not show uncertainty in the supplied probability or tie the assumed price/probability to a verified Qwantej record.
+Tools correctly calls the calculators “what-if” scenarios and says they do not change the ledger. Inside the Kelly and expected-value calculators, however, the default choice is “Half Kelly (recommended)” and a positive user-entered probability produces “+EV — bet has value.” Those outputs do not show uncertainty in the supplied probability or tie the assumed price/probability to a verified Accuej record.
 
 **Recommendation:** label the probability as user-supplied, rename the default “Half Kelly” without a recommendation, and describe positive EV as “positive under these inputs.” Keep this distinct from any system decision or paper-record status.
 
-**Code:** [Tools.tsx](/D:/WebApps/qwantej/frontend/src/pages/Tools.tsx:27), [Tools.tsx](/D:/WebApps/qwantej/frontend/src/pages/Tools.tsx:46), [Tools.tsx](/D:/WebApps/qwantej/frontend/src/pages/Tools.tsx:225).
+**Code:** [Tools.tsx](/D:/WebApps/accuej/frontend/src/pages/Tools.tsx:27), [Tools.tsx](/D:/WebApps/accuej/frontend/src/pages/Tools.tsx:46), [Tools.tsx](/D:/WebApps/accuej/frontend/src/pages/Tools.tsx:225).
 
 ### P3 — Tracker opens into a long chronological ledger without a summary
 
@@ -98,7 +98,7 @@ Paper ledger is the default Track view and renders repeated tier cards for succe
 
 **Recommendation:** add a compact date-range summary above the ledger, default to a recent range or paged cohorts, and retain explicit filter chips and total counts. Keep the existing immutable-record drilldown.
 
-**Code:** [PaperLedger.tsx](/D:/WebApps/qwantej/frontend/src/components/PaperLedger.tsx:183).
+**Code:** [PaperLedger.tsx](/D:/WebApps/accuej/frontend/src/components/PaperLedger.tsx:183).
 
 ## Good patterns to keep
 
@@ -118,7 +118,7 @@ Paper ledger is the default Track view and renders repeated tier cards for succe
 
 ## Resolution record (2026-10-20)
 
-The following UX and information-flow recommendations were implemented in the local Qwantej checkout without changing recommendation gates, model decisions, publication records, or historical evidence:
+The following UX and information-flow recommendations were implemented in the local Accuej checkout without changing recommendation gates, model decisions, publication records, or historical evidence:
 
 | Finding | Resolution |
 | --- | --- |
@@ -133,7 +133,7 @@ The following UX and information-flow recommendations were implemented in the lo
 | Calculator assumptions read as advice | Inputs are labeled as assumptions; Kelly is no longer called recommended; outputs are conditional on entered inputs and disclose missing uncertainty/calibration/quote checks. |
 | Tracker chronology overload | The ledger now starts with filtered cohort/settlement/P&L summaries, opens only the latest year, and keeps months collapsed while retaining the existing cohort drilldown. |
 
-**Current verification:** `npm run build` passed (TypeScript and Vite), and `python -m py_compile` passed for the operational monitor. The supervised local Qwantej Compose runtime rebuilt and returned healthy. The authenticated local browser showed the revised Admin metric labels and grouped alerts, the four-card Market ROI overview, the condensed Daily Match Picks rows, the published selection-first ticket view with full tiers collapsed, and the Tracker summary cards. The selected prediction handoff was followed end to end: the URL retained `prediction_id`, the expected market led the page, its odds capture time appeared in the header, and its row was highlighted. Historical hit-rate, ROI, and sample-size sorting controls were expanded and used successfully. At 390 × 844, Daily Match Picks reflowed into labeled stacked rows with usable content. The Admin API/UI zero-state loaded successfully after adding conditional record links; no affected rows existed at observation time, so those links were not exercised. No automated tests were run.
+**Current verification:** `npm run build` passed (TypeScript and Vite), and `python -m py_compile` passed for the operational monitor. The supervised local Accuej Compose runtime rebuilt and returned healthy. The authenticated local browser showed the revised Admin metric labels and grouped alerts, the four-card Market ROI overview, the condensed Daily Match Picks rows, the published selection-first ticket view with full tiers collapsed, and the Tracker summary cards. The selected prediction handoff was followed end to end: the URL retained `prediction_id`, the expected market led the page, its odds capture time appeared in the header, and its row was highlighted. Historical hit-rate, ROI, and sample-size sorting controls were expanded and used successfully. At 390 × 844, Daily Match Picks reflowed into labeled stacked rows with usable content. The Admin API/UI zero-state loaded successfully after adding conditional record links; no affected rows existed at observation time, so those links were not exercised. No automated tests were run.
 
 **Still outside this implementation pass:** backend correctness of the existing metric calculations, full-app mobile/tablet behavior beyond the Daily Match Picks check, free-role behavior, keyboard/screen-reader use, and WCAG conformance. These remain contract and accessibility review items rather than changes to evidence or recommendation policy.
 

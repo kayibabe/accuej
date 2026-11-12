@@ -40,7 +40,7 @@ export default function LiveMonitorPage() {
           try {
             const notification = new Notification(`${fixture.home_team} vs ${fixture.away_team}`, {
               body: `${score} · ${phase}${fixture.elapsed_minutes == null ? '' : ` · ${fixture.elapsed_minutes}′`}`,
-              tag: `qwantej-match-${fixture.match_id}`,
+              tag: `accuej-match-${fixture.match_id}`,
             })
             notification.onclick = () => {
               window.focus()
@@ -114,7 +114,7 @@ export default function LiveMonitorPage() {
         <div>
           <span className="live-monitor-eyebrow"><i /> Live centre</span>
           <h1>Matches in play</h1>
-          <p>Live scores and match phases from QwanEj’s stored fixture status. This view checks for updates every minute.</p>
+          <p>Live scores and match phases from Accuej’s stored fixture status. This view checks for updates every minute.</p>
         </div>
         <div className="live-monitor-actions">
           {lastChecked && <span>View checked {lastChecked.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</span>}

@@ -1,9 +1,9 @@
-# Football market framework for Qwantej
+# Football market framework for Accuej
 
 ## Purpose
 
 This document turns the supplied football-market catalogue into an extensible
-analytics design for Qwantej. It is an architecture and readiness assessment,
+analytics design for Accuej. It is an architecture and readiness assessment,
 not a claim that every listed market is available, modelled, calibrated, or
 profitable. Market availability, terminology, and settlement can differ by
 bookmaker and competition, so the catalogue must describe contracts rather
@@ -76,7 +76,7 @@ do not multiply marginal probabilities as if correlated events were
 independent. In-play markets also need state-conditioned, timestamped event
 updates rather than pre-match probabilities relabelled as live.
 
-Qwantej now has two related goal-distribution paths. The existing scaled
+Accuej now has two related goal-distribution paths. The existing scaled
 independent-Poisson total-goals forecast remains the source used by its current
 totals path. Separately, the Poisson-Dixon-Coles component constructs one
 regulation-time joint home/away score matrix per fixture and adapts it into
@@ -106,7 +106,7 @@ availability, and ROI/closing-price metrics only where their required source
 data exists. Freeze thresholds before the final holdout; zero qualifiers is a
 valid result.
 
-## Application to Qwantej today
+## Application to Accuej today
 
 The repository already has several useful building blocks:
 
@@ -185,12 +185,12 @@ in [`FOOTBALL_MARKET_FAMILY_READINESS.md`](FOOTBALL_MARKET_FAMILY_READINESS.md).
 The grouped summary below is for sequencing; consult the family register for
 the subfamily-level boundaries.
 
-| Catalogue families | Qwantej fit now | Next gate before use |
+| Catalogue families | Accuej fit now | Next gate before use |
 | --- | --- | --- |
 | Match result, double chance, DNB | Partially scored and settled from regulation-time match scores; not covered by the shared totals qualification design | Define canonical contracts, verify complete scoring and calibration/qualification coverage, and audit edge-case settlement |
 | Match totals and team goals | Totals have the strongest shared-distribution foundation; a joint score matrix is available for current score-derived adapters, but its detached replay is weak | Preserve existing gates; diagnose and validate the joint score model before adding team-goal qualification or deriving further score-based markets |
 | BTTS, correct score, winning margin, goal handicap, half comparison | BTTS is currently scored from the shared joint-score adapter; other outcomes can partly be settled from final/half-time scores | Validate market-specific probabilities from the joint distribution; add period-specific distributions and contract tests for pushes and line variants before expanding scoring |
-| Corners, cards, shots, fouls, offsides, possession, passing | No evidence in the inspected target-market scoring contract that Qwantej currently captures the event data needed | Confirm provider coverage, statistic definitions, timestamped history, and result ingestion before modelling |
+| Corners, cards, shots, fouls, offsides, possession, passing | No evidence in the inspected target-market scoring contract that Accuej currently captures the event data needed | Confirm provider coverage, statistic definitions, timestamped history, and result ingestion before modelling |
 | Player goals/statistics and special events | Requires player identity, lineup/minutes, event-level labels, and provider-specific settlement | Establish identity and event data provenance, then validate player/rare-event models and void rules |
 | Goal timing and in-play | No live-state scoring contract established | Build timestamped event state and live odds snapshots; validate state-conditioned forecasts independently |
 | Combined / bet-builder | Shared marginal probabilities are insufficient where components are dependent | Require a validated joint model or dependence layer and bookmaker-specific bet-builder pricing/settlement contracts |
@@ -222,7 +222,7 @@ the subfamily-level boundaries.
 
 ## Decision
 
-The frameworks can be applied in Qwantej, and its total-goals engine,
+The frameworks can be applied in Accuej, and its total-goals engine,
 market-specific profiles, provenance, explicit promotions, and fail-closed
 qualification are a sound starting base. The catalogue/contract layer and a
 shared joint-score adapter now exist for the markets already scored. The first

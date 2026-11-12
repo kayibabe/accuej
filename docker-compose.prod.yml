@@ -1,3 +1,5 @@
+name: accuej
+
 services:
   postgres:
     image: postgres:15-alpine
@@ -78,8 +80,11 @@ services:
         condition: service_completed_successfully
       redis:
         condition: service_healthy
+    volumes:
+      - backups_data:/data/backups
     command: celery -A app.tasks.pipeline worker --loglevel=info
 
 volumes:
   postgres_data:
   redis_data:
+  backups_data:

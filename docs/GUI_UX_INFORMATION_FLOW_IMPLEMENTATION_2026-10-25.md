@@ -1,4 +1,4 @@
-# Qwantej GUI, UX and information-flow implementation
+# Accuej GUI, UX and information-flow implementation
 
 Date: 25 October 2026 (Africa/Blantyre)
 
@@ -26,7 +26,7 @@ This note records the first implementation pass based on [`GUI_UX_INFORMATION_FL
 - `rtk npm test -- --run`: 49 passed across 11 files. The prior audit baseline was 42 passed / 7 failed; all 7 stale assertions were updated to cover the current visible labels and disclosure interactions without changing product behavior to match obsolete expectations.
 - Backend tests for daily ticket API, paper-ticket flow and recommendation ledger: 5 passed, 1 skipped.
 - `rtk git diff --check`: passed.
-- Rebuilt and restarted only the local `qwantej-backend-1` container, which serves the frontend bundle. Readiness returned healthy; the database and other containers were not restarted.
+- Rebuilt and restarted only the local `accuej-backend-1` container, which serves the frontend bundle. Readiness returned healthy; the database and other containers were not restarted.
 - In the existing authenticated browser session, Today rendered the current published selections and Matches rendered 100 of 188 candidate selections across 4 matches, with the compact filters and disclosure visible. This confirms the current UI flow; it is not a cold/warm latency benchmark.
 
 ## Follow-up work proposed in the initial pass
@@ -68,7 +68,7 @@ Existing frozen-score-cohort work and evidence remain intact. No publication, qu
 - Broadened the keyboard and accessibility-tree review across Today, Matches and candidate details, evidence tabs/drawer, Tracker tabs and accumulator history, Validate performance and recommendation ledger, and the nested research-method tabs. Controls expose accessible names and selected/expanded/disabled states in the browser accessibility tree; tab arrows and Escape/focus return were checked in the sampled flows. This is a browser accessibility-tree and keyboard review, not certification with NVDA or JAWS speech output. The Tracker history exposed about 2,000 AX nodes for the 19 pre-existing accumulators plus the disposable draft; consider collapsing older settled periods by default to reduce navigation overhead.
 - Collected authenticated same-machine reload samples with normal viewport and warm browser assets, timing from reload to the data-ready marker: Today 8 runs, 1.43–2.27 s (median 1.66 s); Matches 8 runs, 2.67–6.22 s (median 5.04 s); Tracker 4 runs, 1.19–2.19 s (median 1.36 s); Validate 8 runs, 1.24–2.27 s (median 1.50 s). Matches is the current end-to-end outlier. These runs use the cloned database and are warm reloads; browser cache clearing and a true cold-start profile were not available in this setup, and 4–8 samples per route do not support a useful p95 or hard budget.
 - The earlier service-level ROI improvement remains unchanged: median local daily ROI service time fell from 2.077 s to 0.705 s with the same result counts. Keep load-time targets provisional until a defined cache-cleared and cold-process profile is collected on representative hardware/network conditions. In particular, profile the Matches endpoint breakdown next; this browser sample indicates more cost than the candidate service timing alone.
-- Removed the disposable audit backend and Redis container and dropped only `qwantej_audit_20261025`. The original local backend still reports readiness with database and Redis healthy.
+- Removed the disposable audit backend and Redis container and dropped only `accuej_audit_20261025`. The original local backend still reports readiness with database and Redis healthy.
 
 The saved-draft return journey is verified. The remaining qualification is a manual assistive-technology speech pass (NVDA/JAWS) and a cache-cleared cold-start timing run; no hard load-time target is claimed. Existing frozen-score-cohort work and evidence remain intact.
 

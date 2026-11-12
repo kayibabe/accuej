@@ -11,7 +11,7 @@ from app.config import CURRENT_MODEL_VERSION, cat_today, settings
 
 logger = logging.getLogger(__name__)
 
-celery_app = Celery("qwantej", broker=settings.redis_url, backend=settings.redis_url)
+celery_app = Celery("accuej", broker=settings.redis_url, backend=settings.redis_url)
 celery_app.conf.update(
     task_serializer="json",
     result_serializer="json",
@@ -887,9 +887,10 @@ def capture_market_policy_shadow(self, target_date: str, model_run_id: int):
 
 @celery_app.task(name="pipeline.backup_database", bind=True, max_retries=2)
 def backup_database(self):
-    """Daily pg_dump to the Railway Volume mounted on this service (see
-    .railway/railway.ts and docs/BACKUP_RESTORE_RUNBOOK.md), pruned to the
-    most recent `db_backup_retention_count` dumps. Shells out to the same
+    """Daily pg_dump to the shared backup volume mounted on this service (see
+    docker-compose.yml / docker-compose.prod.yml and
+    docs/BACKUP_RESTORE_RUNBOOK.md), pruned to the most recent
+    `db_backup_retention_count` dumps. Shells out to the same
     scripts/backup_db.py used for manual/rehearsed backups rather than
     duplicating its pg_dump + pg_restore-validate logic.
     """
@@ -912,7 +913,7 @@ def backup_database(self):
             raise RuntimeError(f"backup_db.py failed (exit {proc.returncode}): {proc.stderr.strip()[-2000:]}")
         summary = json.loads(proc.stdout)
 
-        dumps = sorted(output_dir.glob("qwantej_scheduled_*.dump"), key=lambda p: p.stat().st_mtime, reverse=True)
+        dumps = sorted(output_dir.glob("accuej_scheduled_*.dump"), key=lambda p: p.stat().st_mtime, reverse=True)
         stale = dumps[settings.db_backup_retention_count:]
         for path in stale:
             path.unlink(missing_ok=True)

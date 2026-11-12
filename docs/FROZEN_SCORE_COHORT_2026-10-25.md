@@ -50,9 +50,9 @@ From the repository root in PowerShell, copy the frozen manifest to the running
 backend and write a new report for each scoring run:
 
 ```powershell
-rtk docker cp docs/evidence/score_snapshot_pilot_2026-10-25/manifest.json qwantej-backend-1:/tmp/score-snapshot-pilot-2026-10-25.json
-rtk docker exec -w /app qwantej-backend-1 python -m app.services.frozen_score_cohort score --manifest /tmp/score-snapshot-pilot-2026-10-25.json --output /tmp/pilot-score-after-results.json
-rtk docker cp qwantej-backend-1:/tmp/pilot-score-after-results.json docs/evidence/score_snapshot_pilot_2026-10-25/score-after-results.json
+rtk docker cp docs/evidence/score_snapshot_pilot_2026-10-25/manifest.json accuej-backend-1:/tmp/score-snapshot-pilot-2026-10-25.json
+rtk docker exec -w /app accuej-backend-1 python -m app.services.frozen_score_cohort score --manifest /tmp/score-snapshot-pilot-2026-10-25.json --output /tmp/pilot-score-after-results.json
+rtk docker cp accuej-backend-1:/tmp/pilot-score-after-results.json docs/evidence/score_snapshot_pilot_2026-10-25/score-after-results.json
 ```
 
 Use a fresh output filename for subsequent runs. The database transaction is

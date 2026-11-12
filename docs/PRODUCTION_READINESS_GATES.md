@@ -1,4 +1,4 @@
-# Qwantej production-readiness gates
+# Accuej production-readiness gates
 
 Status: **release blocked — every gate below is unverified until its evidence is attached and reviewed.** This checklist defines product readiness; completing it does not establish that recommendations are profitable or guarantee outcomes.
 

@@ -324,7 +324,7 @@ class HistoricalTotalsBackfill:
                     active_models=ensemble.active_models,
                     data_quality_snapshot={"historical_backfill": True, "as_of_at": input_as_of.isoformat()},
                     feature_snapshot={
-                        "schema_version": "qwantej.model-features.v1",
+                        "schema_version": "accuej.model-features.v1",
                         "forecast_build_id": forecast_build_id(),
                         "captured_at": input_as_of.isoformat(),
                         "market": market,

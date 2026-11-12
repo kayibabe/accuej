@@ -167,7 +167,7 @@ def main():
     if args.snapshot:
         raw_text = args.snapshot.read_text(encoding='utf-8')
     else:
-        proc = subprocess.run(['docker', 'exec', '-i', 'qwantej-backend-1', 'python', '-'],
+        proc = subprocess.run(['docker', 'exec', '-i', 'accuej-backend-1', 'python', '-'],
                               input=EXPORT, text=True, encoding='utf-8', capture_output=True, check=True)
         raw_text = proc.stdout
     raw = json.loads(raw_text)

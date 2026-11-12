@@ -122,7 +122,7 @@ class LiveOddsFetcher:
                         latest = latest.replace(tzinfo=timezone.utc)
                     if now - latest.astimezone(timezone.utc) < CLOSING_REFRESH_INTERVAL:
                         continue
-                cooldown_key = f"qwantej:closing-odds-attempt:{match.id}"
+                cooldown_key = f"accuej:closing-odds-attempt:{match.id}"
                 if await cache.get(cooldown_key) is not None:
                     continue
                 if attempted >= call_limit:

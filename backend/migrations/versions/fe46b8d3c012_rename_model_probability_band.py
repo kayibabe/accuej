@@ -1,4 +1,4 @@
-"""rename model probability band fields for Qwantej
+"""rename model probability band fields for Accuej
 
 Revision ID: fe46b8d3c012
 Revises: fd35a7c2b901
@@ -33,8 +33,8 @@ def _rename_column(old_name: str, new_name: str) -> None:
 
 
 def upgrade() -> None:
-    _rename_column("lohela_band", "qwantej_band")
+    _rename_column("lohela_band", "accuej_band")
 
 
 def downgrade() -> None:
-    _rename_column("qwantej_band", "lohela_band")
+    _rename_column("accuej_band", "lohela_band")

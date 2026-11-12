@@ -40,9 +40,9 @@ def probability_calibration_workbook(data: dict) -> io.BytesIO:
             ["Sample size", s["sample_size"]],
             ["Voids excluded", s["voids_excluded"]],
             ["Unsupported markets excluded", s["unsupported_markets_excluded"]],
-            ["QwanEj Brier score", s["qwantej_brier_score"]],
+            ["Accuej Brier score", s["accuej_brier_score"]],
             ["Market Brier score", s["market_brier_score"]],
-            ["QwanEj calibration error", s["qwantej_calibration_error"]],
+            ["Accuej calibration error", s["accuej_calibration_error"]],
             ["Market calibration error", s["market_calibration_error"]],
             ["Note", data["note"]],
         ],
@@ -50,10 +50,10 @@ def probability_calibration_workbook(data: dict) -> io.BytesIO:
 
     bucket_headers = ["Band", "Sample size", "Wins", "Losses", "Hit rate", "Avg probability", "Calibration gap", "ROI"]
 
-    qwantej_ws = wb.create_sheet("QwanEj buckets")
-    _write_table(qwantej_ws, bucket_headers, [
+    accuej_ws = wb.create_sheet("Accuej buckets")
+    _write_table(accuej_ws, bucket_headers, [
         [r["band"], r["sample_size"], r["wins"], r["losses"], r["hit_rate"], r["avg_probability"], r["calibration_gap"], r["roi"]]
-        for r in data["qwantej_buckets"]
+        for r in data["accuej_buckets"]
     ])
 
     market_ws = wb.create_sheet("Market buckets")
@@ -62,17 +62,17 @@ def probability_calibration_workbook(data: dict) -> io.BytesIO:
         for r in data["market_buckets"]
     ])
 
-    matrix_headers = ["QwanEj band", "Market band", "Sample size", "Wins", "Losses", "Hit rate", "ROI", "Avg QwanEj probability", "Avg market probability"]
+    matrix_headers = ["Accuej band", "Market band", "Sample size", "Wins", "Losses", "Hit rate", "ROI", "Avg Accuej probability", "Avg market probability"]
 
     matrix_ws = wb.create_sheet("Combined matrix")
     _write_table(matrix_ws, matrix_headers, [
-        [r["qwantej_band"], r["market_band"], r["sample_size"], r["wins"], r["losses"], r["hit_rate"], r["roi"], r["avg_qwantej_probability"], r["avg_market_probability"]]
+        [r["accuej_band"], r["market_band"], r["sample_size"], r["wins"], r["losses"], r["hit_rate"], r["roi"], r["avg_accuej_probability"], r["avg_market_probability"]]
         for r in data["combined_matrix"]
     ])
 
     best_ws = wb.create_sheet("Best combinations")
     _write_table(best_ws, matrix_headers, [
-        [r["qwantej_band"], r["market_band"], r["sample_size"], r["wins"], r["losses"], r["hit_rate"], r["roi"], r["avg_qwantej_probability"], r["avg_market_probability"]]
+        [r["accuej_band"], r["market_band"], r["sample_size"], r["wins"], r["losses"], r["hit_rate"], r["roi"], r["avg_accuej_probability"], r["avg_market_probability"]]
         for r in data["best_combinations"]
     ])
 
@@ -85,13 +85,13 @@ def probability_calibration_workbook(data: dict) -> io.BytesIO:
 
     market_headers = [
         "Market family", "Sample size", "Wins", "Losses", "Hit rate", "ROI",
-        "QwanEj Brier", "Market Brier", "QwanEj calibration error", "Market calibration error",
+        "Accuej Brier", "Market Brier", "Accuej calibration error", "Market calibration error",
     ]
     market_family_ws = wb.create_sheet("By market")
     _write_table(market_family_ws, market_headers, [
         [
             r["market_family"], r["sample_size"], r["wins"], r["losses"], r["hit_rate"], r["roi"],
-            r["qwantej_brier_score"], r["market_brier_score"], r["qwantej_calibration_error"], r["market_calibration_error"],
+            r["accuej_brier_score"], r["market_brier_score"], r["accuej_calibration_error"], r["market_calibration_error"],
         ]
         for r in data["by_market"]
     ])

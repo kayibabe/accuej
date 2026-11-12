@@ -6,5 +6,5 @@ def test_forecast_build_id_is_stable_and_content_addressed():
     second = forecast_build_id()
 
     assert first == second
-    assert first.startswith("qwantej-scorer-sha256-v1:")
+    assert first.startswith("accuej-scorer-sha256-v1:")
     assert len(first.rsplit(":", 1)[1]) == 64

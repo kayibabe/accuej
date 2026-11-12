@@ -27,7 +27,7 @@ def _settings(**overrides):
         "flutterwave_secret_hash": "test-webhook-hash",
         "flutterwave_pro_monthly_plan_id": "1234",
         "flutterwave_pro_monthly_price_mwk": 20000,
-        "public_app_base_url": "https://qwantej.example",
+        "public_app_base_url": "https://accuej.example",
     }
     values.update(overrides)
     return SimpleNamespace(**values)

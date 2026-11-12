@@ -1,12 +1,12 @@
-# Qwantej Pro billing setup
+# Accuej Pro billing setup
 
-Qwantej Pro is a card-only recurring subscription at **MWK 20,000 per month**. The checkout button stays disabled until the server has the Flutterwave API key, webhook hash, and matching monthly plan ID.
+Accuej Pro is a card-only recurring subscription at **MWK 20,000 per month**. The checkout button stays disabled until the server has the Flutterwave API key, webhook hash, and matching monthly plan ID.
 
 ## Configure Flutterwave
 
 Create a Flutterwave payment plan with these exact terms:
 
-- Name: `Qwantej Pro Monthly`
+- Name: `Accuej Pro Monthly`
 - Amount: `20000`
 - Currency: `MWK`
 - Interval: `monthly`

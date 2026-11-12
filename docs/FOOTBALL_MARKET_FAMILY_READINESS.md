@@ -1,13 +1,13 @@
-# Football market family readiness in Qwantej
+# Football market family readiness in Accuej
 
-This register maps the 25 families in the supplied catalogue to Qwantej's
+This register maps the 25 families in the supplied catalogue to Accuej's
 current data and decision surface. A family can contain individual contracts
 with different maturity. `Partial` means only the named score-derived subset is
 implemented; it never means the family is approved for picks. Every family
 remains research-only until it has point-in-time evidence, market-specific
 validation, and an explicit promotion.
 
-| # | Family | Current state | What Qwantej has today | Gate before extending or using |
+| # | Family | Current state | What Accuej has today | Gate before extending or using |
 | --- | --- | --- | --- | --- |
 | 1 | Match result markets | Partial | Regulation-time 1X2, double chance, and DNB score adapters; existing qualification gates remain | Validate calibrated probabilities and bookmaker-specific abandoned, awarded, extra-time, and void rules per contract |
 | 2 | Total match goals | Partial | Half-goal total lines have settlement contracts; selected lines are scored by the existing goals path | Preserve provisional qualification gates; validate chronological calibration and odds coverage for each line; define quarter-line partial payouts before adding them |

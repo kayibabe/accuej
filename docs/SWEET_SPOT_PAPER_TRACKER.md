@@ -25,6 +25,6 @@ The screen reports flat-stake profit/ROI, pending results, drawdown in kickoff o
 - `python -m pytest tests/test_sweet_spot_tracker.py -q`: timing, odds/Q boundaries, fallback/replay protection, outcome-blind selection, corrected settlements, integrity and stale heartbeat tests.
 - `PYTHONPATH=/app python scripts/verify_sweet_spot_tracker.py`: temporary isolated PostgreSQL schema; repeat migration, capture/retry, first-prediction rejection, settlement revisions, DB immutability and pre-kickoff guard. The script removes only its randomly named `test_sweet_spot_*` schema in a finally block.
 - Authenticated monitoring: `GET /api/v1/sweet-spot`. There are no public mutation endpoints or betting actions.
-- Supervised local deployment: `D:/WebApps/local-server/scripts/start-app.ps1 -App qwantej`. Migration `b208d5e9f3a2` adds only the new ledger and its protection functions/triggers.
+- Supervised local deployment: `D:/WebApps/local-server/scripts/start-app.ps1 -App accuej`. Migration `b208d5e9f3a2` adds only the new ledger and its protection functions/triggers.
 
 Stopping collection requires disabling its local setting and restarting the API/worker; existing evidence remains. Do not downgrade/drop the ledger to pause an experiment.

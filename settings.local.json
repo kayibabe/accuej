@@ -1,0 +1,8 @@
+{
+  "permissions": {
+    "allow": [
+      "PowerShell(cd D:\\\\WebApps\\\\accuej; \\(Get-Command railway -ErrorAction SilentlyContinue\\) -ne $null; Write-Output \"---\"; Get-Content .env | Select-String -Pattern \"RAILWAY|PROD\")",
+      "PowerShell(cd D:\\\\WebApps\\\\accuej\\\\backend; Get-ChildItem -Directory | Select-Object Name; Write-Output \"---python---\"; \\(Get-Command python\\).Source; python -c \"import sys; print\\(sys.executable\\)\")"
+    ]
+  }
+}

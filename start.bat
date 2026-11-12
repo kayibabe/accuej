@@ -1,13 +1,13 @@
 @echo off
-title QwanEj - Starting
+title Accuej - Starting
 echo.
 echo  ============================
-echo   QwanEj - Starting up...
+echo   Accuej - Starting up...
 echo  ============================
 echo.
 
 cd /d "%~dp0"
-set "FRONTEND_PORT=3011"
+set "FRONTEND_PORT=3000"
 
 echo [1/4] Checking Docker Desktop...
 docker info >nul 2>&1
@@ -85,7 +85,7 @@ if "%API_READY%" neq "1" (
 echo.
 echo [3/4] Starting frontend dev server...
 set "VITE_API_PROXY_TARGET=http://127.0.0.1:%API_PORT%"
-start "QwanEj Frontend" cmd /k "cd /d "%~dp0frontend" && npm run dev -- --port %FRONTEND_PORT% --strictPort"
+start "Accuej Frontend" cmd /k "cd /d "%~dp0frontend" && npm run dev -- --port %FRONTEND_PORT% --strictPort"
 
 echo.
 echo [4/4] Waiting for Vite to compile, then opening browser...
@@ -108,7 +108,7 @@ start http://localhost:%FRONTEND_PORT%
 
 echo.
 echo  ============================
-echo   QwanEj is running!
+echo   Accuej is running!
 echo.
 echo   App      : http://localhost:%FRONTEND_PORT%
 echo   API docs : http://localhost:%API_PORT%/docs

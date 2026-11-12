@@ -1,15 +1,17 @@
+name: accuej
+
 services:
   postgres:
     image: postgres:15-alpine
     environment:
-      POSTGRES_USER: lohela
-      POSTGRES_PASSWORD: lohela_pass
-      POSTGRES_DB: lohela
+      POSTGRES_USER: accuej
+      POSTGRES_PASSWORD: accuej_pass
+      POSTGRES_DB: accuej
     volumes:
       - postgres_data:/var/lib/postgresql/data
     restart: unless-stopped
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U lohela -d lohela"]
+      test: ["CMD-SHELL", "pg_isready -U accuej -d accuej"]
       interval: 5s
       timeout: 5s
       retries: 5
@@ -26,11 +28,11 @@ services:
     restart: unless-stopped
 
   migrate:
-    image: qwantej-backend:latest
+    image: accuej-backend:latest
     env_file:
       - .env
     environment:
-      DATABASE_URL: postgresql+asyncpg://lohela:lohela_pass@postgres:5432/lohela
+      DATABASE_URL: postgresql+asyncpg://accuej:accuej_pass@postgres:5432/accuej
     depends_on:
       postgres:
         condition: service_healthy
@@ -41,7 +43,7 @@ services:
     command: alembic upgrade head
 
   backend:
-    image: qwantej-backend:latest
+    image: accuej-backend:latest
     build:
       # Root context: the image also builds the React client (see Dockerfile).
       context: .
@@ -51,7 +53,7 @@ services:
     env_file:
       - .env
     environment:
-      DATABASE_URL: postgresql+asyncpg://lohela:lohela_pass@postgres:5432/lohela
+      DATABASE_URL: postgresql+asyncpg://accuej:accuej_pass@postgres:5432/accuej
       REDIS_URL: redis://redis:6379/0
       FLUTTERWAVE_SECRET_KEY: ${FLUTTERWAVE_SECRET_KEY:-}
       FLUTTERWAVE_SECRET_HASH: ${FLUTTERWAVE_SECRET_HASH:-}
@@ -75,11 +77,11 @@ services:
       timeout: 5s
       retries: 3
   celery_worker:
-    image: qwantej-backend:latest
+    image: accuej-backend:latest
     env_file:
       - .env
     environment:
-      DATABASE_URL: postgresql+asyncpg://lohela:lohela_pass@postgres:5432/lohela
+      DATABASE_URL: postgresql+asyncpg://accuej:accuej_pass@postgres:5432/accuej
       REDIS_URL: redis://redis:6379/0
     depends_on:
       migrate:
@@ -90,10 +92,12 @@ services:
       - ./backend/app:/app/app
       - ./backend/migrations:/app/migrations
       - ./backend/alembic.ini:/app/alembic.ini
+      - backups_data:/data/backups
     command: celery -A app.tasks.pipeline worker --loglevel=info
     restart: unless-stopped
 
 volumes:
   postgres_data:
   redis_data:
+  backups_data:
 

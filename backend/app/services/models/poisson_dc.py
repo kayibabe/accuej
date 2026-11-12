@@ -49,7 +49,7 @@ class JointScoreDistribution:
     def snapshot(self, source: str) -> dict:
         """Compact provenance sufficient to reconstruct this distribution."""
         return {
-            "schema_version": "qwantej.joint-score-distribution.v1",
+            "schema_version": "accuej.joint-score-distribution.v1",
             "source": source,
             "scope": "regulation",
             "score_support": [0, MAX_GOALS],

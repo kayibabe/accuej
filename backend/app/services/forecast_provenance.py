@@ -19,4 +19,4 @@ def forecast_build_id() -> str:
         digest.update(b"\0")
         digest.update(source_file.read_bytes())
         digest.update(b"\0")
-    return f"qwantej-scorer-sha256-v1:{digest.hexdigest()}"
+    return f"accuej-scorer-sha256-v1:{digest.hexdigest()}"

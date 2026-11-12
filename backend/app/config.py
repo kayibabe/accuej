@@ -39,12 +39,12 @@ class Settings(BaseSettings):
         return v.lstrip("﻿").strip() if isinstance(v, str) else v
 
     # Database
-    database_url: str = "postgresql+asyncpg://lohela:lohela_pass@localhost:5432/lohela"
+    database_url: str = "postgresql+asyncpg://accuej:accuej_pass@localhost:5432/accuej"
 
     @field_validator("database_url", mode="before")
     @classmethod
     def normalize_database_url(cls, v: str) -> str:
-        # Railway (and Heroku/Render) provide postgresql:// or postgres://;
+        # Managed Postgres providers can supply postgresql:// or postgres://;
         # asyncpg requires the postgresql+asyncpg:// scheme.
         if isinstance(v, str):
             if v.startswith("postgres://"):
@@ -60,7 +60,7 @@ class Settings(BaseSettings):
     app_env: str = "development"
     secret_key: str = "change_me_in_production"
     research_api_key: str = ""
-    auth_cookie_name: str = "qwantej_session"
+    auth_cookie_name: str = "accuej_session"
     auth_session_days: int = 30
     auth_allow_registration: bool = True
     log_level: str = "INFO"
@@ -94,7 +94,7 @@ class Settings(BaseSettings):
     settlement_lookback_days: int = 7
     settlement_startup_lookback_days: int = 30
     scheduler_leader_lock_enabled: bool = True
-    scheduler_leader_lock_name: str = "qwantej:apscheduler:leader"
+    scheduler_leader_lock_name: str = "accuej:apscheduler:leader"
 
     # Weekly offline learning creates shadow challengers only. Promotion remains manual.
     learning_shadow_schedule_enabled: bool = True
@@ -121,10 +121,11 @@ class Settings(BaseSettings):
     # shadow validation. Keep this release's validation entirely prospective.
     learning_validation_not_before: date = date(2026, 10, 25)
 
-    # Daily pg_dump to a Railway Volume (see .railway/railway.ts, mounted on
-    # the worker service) — see docs/BACKUP_RESTORE_RUNBOOK.md. 01:00 UTC is
-    # clear of both pipeline windows (22:15 UTC / 03:00 UTC) and the shadow
-    # learning / singles ledger jobs (04:10-04:30 UTC).
+    # Daily pg_dump to the backup volume mounted on the worker service (see
+    # docker-compose.yml / docker-compose.prod.yml and
+    # docs/BACKUP_RESTORE_RUNBOOK.md). 01:00 UTC is clear of both pipeline
+    # windows (22:15 UTC / 03:00 UTC) and the shadow learning / singles ledger
+    # jobs (04:10-04:30 UTC).
     db_backup_enabled: bool = True
     db_backup_cron_hour: int = 1
     db_backup_cron_minute: int = 0

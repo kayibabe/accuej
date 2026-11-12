@@ -12,7 +12,7 @@ from app.services.parameter_sweep import POLICY_VERSION, _scan_out
 
 
 def job_key(target: date) -> str:
-    return f"qwantej:parameter-sweep:{POLICY_VERSION}:{CURRENT_MODEL_VERSION}:{target}"
+    return f"accuej:parameter-sweep:{POLICY_VERSION}:{CURRENT_MODEL_VERSION}:{target}"
 
 
 async def ready_scan(db, target: date) -> dict | None:

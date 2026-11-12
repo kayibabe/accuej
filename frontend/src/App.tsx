@@ -214,11 +214,11 @@ export default function App() {
     setMatchReturnTo(from)
     const extra: Record<string, string> = { from }
     if (nextPredictionId != null) extra.prediction_id = String(nextPredictionId)
-    window.history.pushState({ qwantejMatchReturn: true }, '', datePath(`/match/${nextMatchId}`, date, extra))
+    window.history.pushState({ accuejMatchReturn: true }, '', datePath(`/match/${nextMatchId}`, date, extra))
   }
 
   function returnFromMatch() {
-    if (window.history.state?.qwantejMatchReturn) {
+    if (window.history.state?.accuejMatchReturn) {
       window.history.back()
       return
     }
@@ -296,10 +296,10 @@ export default function App() {
   return (
     <div className="app">
       <aside className="app-sidebar">
-        <a className="brand" href="/" aria-label="QwanEj home" onClick={(event) => { event.preventDefault(); goTo('tickets') }}>
-          <img className="brand-logo brand-logo-light" src="/light/icon-128.png?v=qwanej-1" alt="" />
-          <img className="brand-logo brand-logo-dark" src="/dark/icon-128.png?v=qwanej-1" alt="" />
-          <span className="brand-copy"><strong className="brand-name">QwanEj</strong><small className="brand-tagline">Intelligence beyond numbers</small></span>
+        <a className="brand" href="/" aria-label="Accuej home" onClick={(event) => { event.preventDefault(); goTo('tickets') }}>
+          <img className="brand-logo brand-logo-light" src="/light/icon-128.png?v=accuej-1" alt="" />
+          <img className="brand-logo brand-logo-dark" src="/dark/icon-128.png?v=accuej-1" alt="" />
+          <span className="brand-copy"><strong className="brand-name">Accuej</strong><small className="brand-tagline">Intelligence beyond numbers</small></span>
         </a>
         {isInternal && <WorkspaceSwitcher workspace={workspace} onChange={switchWorkspace} className="workspace-switcher-sidebar" />}
         <nav className="sidebar-nav" aria-label="Primary navigation">
@@ -315,10 +315,10 @@ export default function App() {
         </div>
       </aside>
       <header className="app-header">
-        <a className="topbar-brand" href="/tickets" aria-label="QwanEj home" onClick={(event) => { event.preventDefault(); goTo('tickets') }}>
-          <img className="topbar-mark topbar-logo-light" src="/light/icon-128.png?v=qwanej-1" alt="" />
-          <img className="topbar-mark topbar-logo-dark" src="/dark/icon-128.png?v=qwanej-1" alt="" />
-          <span>QwanEj</span>
+        <a className="topbar-brand" href="/tickets" aria-label="Accuej home" onClick={(event) => { event.preventDefault(); goTo('tickets') }}>
+          <img className="topbar-mark topbar-logo-light" src="/light/icon-128.png?v=accuej-1" alt="" />
+          <img className="topbar-mark topbar-logo-dark" src="/dark/icon-128.png?v=accuej-1" alt="" />
+          <span>Accuej</span>
         </a>
         {isInternal && <WorkspaceSwitcher workspace={workspace} onChange={switchWorkspace} className="workspace-switcher-header" />}
         {(page === 'tickets' || page === 'matches' || (page === 'research' && isInternal)) && (

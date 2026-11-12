@@ -58,7 +58,7 @@ export default defineRailway(() => {
     },
   });
 
-  return project("qwantej", {
+  return project("accuej", {
     resources: [pg, rd, web, worker, backups],
   });
 });

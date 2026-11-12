@@ -1,4 +1,4 @@
-# Qwantej GUI, UX, information flow and maintainability audit
+# Accuej GUI, UX, information flow and maintainability audit
 
 Date: 25 October 2026 (Africa/Blantyre). Status: audit and proposed implementation plan, not a completed redesign.
 

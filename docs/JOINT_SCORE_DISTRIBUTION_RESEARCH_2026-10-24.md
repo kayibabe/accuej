@@ -14,7 +14,7 @@ markets. The first replay scored raw `Prediction.poisson_prob`. A follow-up
 also scores the stored historical-backfill `Prediction.model_probability`
 field, without changing the market or qualification policy.
 
-Two detached datasets were read from the local Qwantej database:
+Two detached datasets were read from the local Accuej database:
 
 | Capture source | Unique matches | Unique market forecasts | Date range | Duplicate snapshots removed |
 | --- | ---: | ---: | --- | ---: |
@@ -150,7 +150,7 @@ confirmation holdout because full-period aggregate performance had already
 been examined. The results use the global-fit historical-backfill source, not
 the live ensemble or a per-competition production model. Calibration reduced
 the measured error but did not establish a promotion candidate; no fitted
-parameters were activated or written to Qwantej.
+parameters were activated or written to Accuej.
 
 ## Rate-level diagnostic coverage
 
